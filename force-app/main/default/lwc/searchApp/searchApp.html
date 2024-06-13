@@ -1,0 +1,54 @@
+<template>
+    <lightning-input type="search" label="Search" placeholder="Enter at least 3 characters"
+                     value={searchTerm} onchange={handleSearchTermChange} onkeyup={handleSearchTermChange}>
+    </lightning-input>
+
+    <template if:true={items}>
+        <div class="slds-grid slds-wrap">
+            <template for:each={items} for:item="item">
+                <div key={item.Id} class="slds-col slds-size_1-of-3 slds-p-around_small">
+                    <lightning-card class="slds-card">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__figure">
+                                    <lightning-icon icon-name="standard:product" alternative-text="Item"
+                                                    size="small">
+                                    </lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <h2>
+                                        <a href="javascript:void(0);" key={item.Id} data-id={item.Id}
+                                           onclick={handleItemClick}
+                                           class="slds-card__header-link slds-truncate">
+                                            <span class="slds-text-heading_small">{item.Name}</span>
+                                        </a>
+                                    </h2>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <p><strong>Type:</strong> {item.dmpl__ItemType__c}</p>
+                            <p><strong>Code:</strong> {item.dmpl__ItemCode__c}</p>
+                            <template if:true={item.Image_Url__c}>
+                                <!-- Adjust width and height of the image -->
+                                <img src={item.Image_Url__c} alt="Item Image" class="product-image"
+                                     style="width: 100px; height: 100px;">
+                            </template>
+                            <template if:false={item.Image_Url__c}>
+                                <!-- Placeholder image -->
+                                <p>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+                                         alt="No Image Available" style="width: 100%; height: auto;">
+                                </p>
+                            </template>
+                        </div>
+                    </lightning-card>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={error}>
+        <p class="slds-text-color_error">{error.body.message}</p>
+    </template>
+</template>

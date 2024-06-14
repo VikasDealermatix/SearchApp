@@ -36,7 +36,7 @@ export default class SearchApp extends NavigationMixin(LightningElement) {
             type: 'standard__recordPage',
             attributes: {
                 recordId: itemId,
-                objectApiName: 'dmpl__Item__c',
+                objectApiName: 'dmpl__SaleOrder__c', // Updated to match the Sale Order object
                 actionName: 'view'
             }
         });

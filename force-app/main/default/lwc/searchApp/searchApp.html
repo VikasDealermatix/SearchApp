@@ -23,24 +23,15 @@
                                             <span class="slds-text-heading_small">{item.Name}</span>
                                         </a>
                                     </h2>
+                                    <p><strong>Document Date:</strong> {item.dmpl__DocumentDate__c}</p>
                                 </div>
                             </header>
                         </div>
                         <div class="slds-card__body slds-card__body_inner">
-                            <p><strong>Type:</strong> {item.dmpl__ItemType__c}</p>
-                            <p><strong>Code:</strong> {item.dmpl__ItemCode__c}</p>
-                            <template if:true={item.Image_Url__c}>
-                                <!-- Adjust width and height of the image -->
-                                <img src={item.Image_Url__c} alt="Item Image" class="product-image"
-                                     style="width: 200px; height: 200px;">
-                            </template>
-                            <template if:false={item.Image_Url__c}>
-                                <!-- Placeholder image -->
-                                <p>
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
-                                         alt="No Image Available" style="width: 200px; height: 200px;">
-                                </p>
-                            </template>
+                            <p><strong>Branch:</strong> {item.dmpl__BranchId__r.Name}</p>
+                            <p><strong>Partner Account:</strong> {item.dmpl__PartnerAccountId__r.Name}</p>
+                            <p><strong>Status:</strong> {item.dmpl__Status__c}</p>
+                            <p><strong>Total Order Amount:</strong> {item.dmpl__TotalOrderAmount__c}</p>
                         </div>
                     </lightning-card>
                 </div>

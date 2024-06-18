@@ -7,15 +7,19 @@
         <div class="slds-grid slds-wrap">
             <template for:each={items} for:item="item">
                 <div key={item.Id} class="slds-col slds-size_1-of-3 slds-p-around_small">
-                    <lightning-card class="slds-card" style="background-color: aqua;">
-                        <div class="slds-card__header slds-grid">
+                    <lightning-card class="slds-card"
+                                    style="background-color: #12e482; border-radius: 8px; box-shadow: 0 2px 4px rgba(210, 19, 204, 0.1);">
+                        <div class="slds-card__header slds-grid"
+                             style="padding: 0.75rem 1rem; background-color: #f0f0f0; border-bottom: 1px solid #d8d8d8;">
                             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                                 <div class="slds-media__figure">
                                     <lightning-icon icon-name="standard:product" alternative-text="Item" size="small"></lightning-icon>
                                 </div>
                                 <div class="slds-media__body" style="max-width: 100%;">
                                     <h2 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        <a href="javascript:void(0);" key={item.Id} data-id={item.Id} onclick={handleItemClick} class="slds-card__header-link slds-truncate">
+                                        <a href="javascript:void(0);" data-id={item.Id} onclick={handleItemClick}
+                                           class="slds-card__header-link"
+                                           style="color: #0070d2; text-decoration: none; font-weight: bold;">
                                             <template if:true={item.dmpl__ItemCode__c}>
                                                 <span class="slds-text-heading_small">{item.dmpl__ItemCode__c}</span>
                                             </template>
@@ -27,7 +31,7 @@
                                 </div>
                             </header>
                         </div>
-                        <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-card__body slds-card__body_inner" style="padding: 1rem;">
                             <template if:true={item.dmpl__TotalOrderAmount__c}>
                                 <p><strong>Customer:</strong> {item.dmpl__PartnerAccountId__r.Name}</p>
                                 <p><strong>Total Amount:</strong> {item.dmpl__TotalOrderAmount__c}</p>
@@ -46,6 +50,6 @@
     </template>
 
     <template if:true={error}>
-        <p class="slds-text-color_error">{error.body.message}</p>
+        <p style="color: red;">{error.body.message}</p>
     </template>
 </template>

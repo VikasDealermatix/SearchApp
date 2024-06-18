@@ -1,5 +1,5 @@
 <template>
-    <lightning-input type="search" label="Search" placeholder="Enter at least 3 characters"
+    <lightning-input type="search" label="Search" placeholder="Enter Sale Order or Item Name"
                      value={searchTerm} onchange={handleSearchTermChange} onkeyup={handleSearchTermChange}>
     </lightning-input>
 
@@ -11,27 +11,33 @@
                         <div class="slds-card__header slds-grid">
                             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                                 <div class="slds-media__figure">
-                                    <lightning-icon icon-name="standard:product" alternative-text="Item"
-                                                    size="small">
-                                    </lightning-icon>
+                                    <lightning-icon icon-name="standard:product" alternative-text="Item" size="small"></lightning-icon>
                                 </div>
                                 <div class="slds-media__body" style="max-width: 100%;">
                                     <h2 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        <a href="javascript:void(0);" key={item.Id} data-id={item.Id}
-                                           onclick={handleItemClick}
-                                           class="slds-card__header-link slds-truncate">
-                                            <span class="slds-text-heading_small">{item.Name}</span>
+                                        <a href="javascript:void(0);" key={item.Id} data-id={item.Id} onclick={handleItemClick} class="slds-card__header-link slds-truncate">
+                                            <template if:true={item.dmpl__ItemCode__c}>
+                                                <span class="slds-text-heading_small">{item.dmpl__ItemCode__c}</span>
+                                            </template>
+                                            <template if:false={item.dmpl__ItemCode__c}>
+                                                <span class="slds-text-heading_small">{item.Name}</span>
+                                            </template>
                                         </a>
                                     </h2>
-                                    <p><strong>Document Date:</strong> {item.dmpl__DocumentDate__c}</p>
                                 </div>
                             </header>
                         </div>
                         <div class="slds-card__body slds-card__body_inner">
-                            <p><strong>Branch:</strong> {item.dmpl__BranchId__r.Name}</p>
-                            <p><strong>Partner Account:</strong> {item.dmpl__PartnerAccountId__r.Name}</p>
-                            <p><strong>Status:</strong> {item.dmpl__Status__c}</p>
-                            <p><strong>Total Order Amount:</strong> {item.dmpl__TotalOrderAmount__c}</p>
+                            <template if:true={item.dmpl__TotalOrderAmount__c}>
+                                <p><strong>Customer:</strong> {item.dmpl__PartnerAccountId__r.Name}</p>
+                                <p><strong>Total Amount:</strong> {item.dmpl__TotalOrderAmount__c}</p>
+                            </template>
+                            <template if:true={item.dmpl__ItemType__c}>
+                                <p><strong>Item Type:</strong> {item.dmpl__ItemType__c}</p>
+                            </template>
+                            <template if:true={item.dmpl__Make__c}>
+                                <p><strong>Make:</strong> {item.dmpl__Make__c}</p>
+                            </template>
                         </div>
                     </lightning-card>
                 </div>

@@ -32,11 +32,19 @@ export default class SearchApp extends NavigationMixin(LightningElement) {
 
     handleItemClick(event) {
         const itemId = event.currentTarget.dataset.id;
+        let objectApiName = 'dmpl__SaleOrder__c';
+
+        // Determine if the clicked item is a Sale Order or an Item
+        const clickedItem = this.items.find(item => item.Id === itemId);
+        if (clickedItem && clickedItem.dmpl__ItemCode__c) {
+            objectApiName = 'dmpl__Item__c';
+        }
+
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
                 recordId: itemId,
-                objectApiName: 'dmpl__SaleOrder__c', // Updated to match the Sale Order object
+                objectApiName: objectApiName,
                 actionName: 'view'
             }
         });

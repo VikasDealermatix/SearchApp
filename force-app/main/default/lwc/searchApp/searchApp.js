@@ -20,7 +20,7 @@ export default class SearchApp extends NavigationMixin(LightningElement) {
         searchItems({ searchTerm: this.searchTerm })
             .then(result => {
                 this.items = result.map(item => {
-                    let label = item.dmpl__ItemCode__c ? item.dmpl__ItemCode__c : item.Name;
+                    let label = item.dmpl__ItemCode__c ? item.Name : item.dmpl__ItemCode__c;
                     let icon = item.dmpl__ItemCode__c ? 'standard:product' : 'standard:orders';
                     let meta = item.dmpl__ItemCode__c ? 'Item' : 'Sale Order';
                     return { Id: item.Id, label: label, icon: icon, meta: meta };

@@ -3,12 +3,24 @@
                      value={searchTerm} onchange={handleSearchTermChange} onkeyup={handleSearchTermChange}>
     </lightning-input>
 
-    <template if:true={items}>
-        <lightning-combobox name="searchResults" label="Search Results"
-                            placeholder="Select an item" 
-                            options={dropdownOptions} 
-                            onchange={handleItemSelection}>
-        </lightning-combobox>
+    <template if:true={items.length}>
+        <div class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-show">
+            <ul class="slds-listbox__options" role="listbox">
+                <template for:each={items} for:item="item">
+                    <li key={item.Id} class="slds-listbox__item" role="presentation">
+                        <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option" data-id={item.Id} onclick={handleItemClick}>
+                            <span class="slds-media__figure slds-listbox__option-icon">
+                                <lightning-icon icon-name={item.icon} size="small" alternative-text="Item"></lightning-icon>
+                            </span>
+                            <span class="slds-media__body">
+                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">{item.label}</span>
+                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{item.meta}</span>
+                            </span>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+        </div>
     </template>
 
     <template if:true={error}>

@@ -5,45 +5,43 @@ import { NavigationMixin } from 'lightning/navigation';
 export default class SearchApp extends NavigationMixin(LightningElement) {
     @track searchTerm = '';
     @track items = [];
-    @track dropdownOptions = [];
     @track error;
 
     handleSearchTermChange(event) {
         this.searchTerm = event.target.value;
-        if (this.searchTerm.length >= 3) {
+        if (this.searchTerm.length >= 1) {
             this.searchItems();
         } else {
             this.items = [];
-            this.dropdownOptions = [];
         }
     }
 
     searchItems() {
         searchItems({ searchTerm: this.searchTerm })
             .then(result => {
-                this.items = result;
-                this.error = undefined;
-                this.dropdownOptions = this.items.map(item => {
+                this.items = result.map(item => {
                     let label = item.dmpl__ItemCode__c ? item.dmpl__ItemCode__c : item.Name;
-                    return { label: label, value: item.Id };
+                    let icon = item.dmpl__ItemCode__c ? 'standard:product' : 'standard:orders';
+                    let meta = item.dmpl__ItemCode__c ? 'Item' : 'Sale Order';
+                    return { Id: item.Id, label: label, icon: icon, meta: meta };
                 });
+                this.error = undefined;
                 console.log('Search results:', result);
             })
             .catch(error => {
                 this.error = error;
                 this.items = undefined;
-                this.dropdownOptions = [];
                 console.error('Error retrieving search results:', error);
             });
     }
 
-    handleItemSelection(event) {
-        const itemId = event.detail.value;
+    handleItemClick(event) {
+        const itemId = event.currentTarget.dataset.id;
         let objectApiName = 'dmpl__SaleOrder__c';
 
-        // Determine if the selected item is a Sale Order or an Item
-        const selectedItem = this.items.find(item => item.Id === itemId);
-        if (selectedItem && selectedItem.dmpl__ItemCode__c) {
+        // Determine if the clicked item is a Sale Order or an Item
+        const clickedItem = this.items.find(item => item.Id === itemId);
+        if (clickedItem && clickedItem.meta === 'Item') {
             objectApiName = 'dmpl__Item__c';
         }
 

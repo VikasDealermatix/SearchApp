@@ -20,9 +20,9 @@ export default class SearchApp extends NavigationMixin(LightningElement) {
         searchItems({ searchTerm: this.searchTerm })
             .then(result => {
                 this.items = result.map(item => {
-                    let label = item.dmpl__ItemCode__c ? item.Name : item.dmpl__ItemCode__c;
+                    let label = item.dmpl__ItemCode__c ? item.Name : item.Name;
                     let icon = item.dmpl__ItemCode__c ? 'standard:product' : 'standard:orders';
-                    let meta = item.dmpl__ItemCode__c ? 'Item' : 'Sale Order';
+                    let meta = item.dmpl__ItemCode__c ? 'Item' : `Sale Order | ${item.dmpl__PartnerAccountId__r.Name} | ₹${item.dmpl__TotalOrderAmount__c}`;
                     return { Id: item.Id, label: label, icon: icon, meta: meta };
                 });
                 this.error = undefined;
@@ -41,7 +41,7 @@ export default class SearchApp extends NavigationMixin(LightningElement) {
 
         // Determine if the clicked item is a Sale Order or an Item
         const clickedItem = this.items.find(item => item.Id === itemId);
-        if (clickedItem && clickedItem.meta === 'Item') {
+        if (clickedItem && clickedItem.meta.includes('Item')) {
             objectApiName = 'dmpl__Item__c';
         }
 
